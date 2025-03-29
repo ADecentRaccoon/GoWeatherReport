@@ -30,7 +30,8 @@ func WeatherRouter(r *gin.RouterGroup){
 			return
 		}
 
-	utils.FetchWeather(request.Location, request.Date1, request.Date2)
+	weather := utils.FetchWeather(request.Location, request.Date1, request.Date2)
 
+	ctx.JSON(200, weather)
 	})
 }

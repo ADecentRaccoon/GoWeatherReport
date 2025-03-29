@@ -1,15 +1,18 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
-	"encoding/json"
-	"io"
+
+	// "github.com/redis/go-redis/v9"
 )
 
-func FetchWeather(location string, date1 string, date2 string){
+func FetchWeather(location string, date1 string, date2 string) map[string]any {
 	url := fmt.Sprintf("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/%s/%s/%s?key=%s", location, date1, date2, os.Getenv("APIKEY"))
+	data := make(map[string]any)
 	res, err := http.Get(url)
 	if err != nil{
 		panic(err)
@@ -17,15 +20,14 @@ func FetchWeather(location string, date1 string, date2 string){
 	body, err := io.ReadAll(res.Body)
 	if err != nil{
 		fmt.Println("Reading error: ", err)
-		return
+		data["400"] = "Invailed responce"
+		return data
 	}
-	var data map[string]any
-
 	err = json.Unmarshal(body, &data)
 	if err != nil{
 		fmt.Println("Parse error: ", err)
 	}
 
 
-	fmt.Println(data)
+	return data
 }
