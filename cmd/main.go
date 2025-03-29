@@ -13,5 +13,5 @@ func main() {
 	weatherGroup := r.Group("/weather")
 	routers.WeatherRouter(weatherGroup)
 
-	r.Run("localhost:8080")
+	r.Run("localhost:8083")
 }

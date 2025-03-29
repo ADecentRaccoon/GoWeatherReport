@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 
 	// "github.com/redis/go-redis/v9"
 )
@@ -20,11 +21,15 @@ func FetchWeather(location string, date1 string, date2 string) map[string]any {
 	body, err := io.ReadAll(res.Body)
 	if err != nil{
 		fmt.Println("Reading error: ", err)
-		data["400"] = "Invailed responce"
+		data["400"] = "Invalid response"
 		return data
 	}
 	err = json.Unmarshal(body, &data)
 	if err != nil{
+		if strings.Contains(err.Error(), "invalid character"){
+			data["400"] = string(body)
+		}
+		
 		fmt.Println("Parse error: ", err)
 	}
 
