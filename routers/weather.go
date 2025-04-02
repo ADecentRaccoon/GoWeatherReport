@@ -2,7 +2,6 @@ package routers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/ADecentRaccoon/GoWeatherReport/utils"
@@ -31,15 +30,7 @@ func WeatherRouter(r *gin.RouterGroup){
 		return
 	}
 	fmt.Println()
-	if exist, data := utils.GetResponse(request.Location); exist{
-		ctx.JSON(203, data)
-		return
-	}
 	weather := utils.FetchWeather(request.Location, request.Date1, request.Date2)
-	fmt.Println("-----")
-	log.Println(weather)
-	fmt.Println("-----")
-	utils.SaveResponse(request.Location, weather)
 	ctx.JSON(200, weather)
 	})
 }
