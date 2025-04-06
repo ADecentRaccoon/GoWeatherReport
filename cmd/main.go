@@ -6,8 +6,8 @@ import(
 	"github.com/joho/godotenv"
 )
 
-
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	godotenv.Load()
 	r := gin.Default()
 	weatherGroup := r.Group("/weather")
