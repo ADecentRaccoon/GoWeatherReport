@@ -5,4 +5,4 @@ COPY . .
 
 RUN go mod tidy && go build -o myapp /app/cmd/main.go
 
-CMD [ "./myapp" ]
+CMD [ "./myapp",  "echo", "app-started"]
