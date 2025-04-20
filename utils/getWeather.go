@@ -16,7 +16,9 @@ func FetchWeather(location string, date1 string, date2 string) map[string]any {
 		parseError := json.Unmarshal([]byte(resived), &data)
 		if parseError != nil{
 			println("parseError (1): ",parseError.Error())
+			return nil
 		}
+		data["from cache"] = true
 		return data
 	}else{
 	url := fmt.Sprintf("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/%s/%s/%s?key=%s", location, date1, date2, os.Getenv("APIKEY"))
@@ -35,6 +37,7 @@ func FetchWeather(location string, date1 string, date2 string) map[string]any {
 		if parseError != nil{
 			println("parseError (2): ",parseError)
 		}
+		data["from cache"] = false
 		return data
 	}
 }
